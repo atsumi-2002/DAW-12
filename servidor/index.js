@@ -6,6 +6,8 @@ const multer = require('multer')
 const path = require("path");
 const { param } = require('./routes/producto');
 const app = express();
+const { unlink } = require("fs-extra");
+
 conectarDB();
 app.use(cors());
 app.use(express.json());
@@ -14,8 +16,8 @@ var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './image')
     },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname)
+    filename: function(req, file, cb) { 
+        cb(null, Math.ceil(Date.now()/1000)+'-'+file.originalname)
     }
 })
 var upload = multer({ storage: storage })
@@ -38,6 +40,15 @@ app.post('/api/subir', upload.single('imagen'), (req, res) => {
 
 app.get("/api/img/:name", (req, res) => {
     res.sendFile(path.join(__dirname, "./image/"+req.params.name));
+});
+
+app.delete("/api/img/:name", async (req, res) => {
+    try {
+        await unlink(path.resolve("./image/"+req.params.name))
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error ede actualizacion');
+    }
 });
 
 app.listen(4000, () => {

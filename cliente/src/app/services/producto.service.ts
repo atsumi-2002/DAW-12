@@ -36,4 +36,8 @@ export class ProductoService {
     let urlApi = 'http://localhost:4000/api/subir';
     return this.http.post(urlApi, formData);
   }
+  
+  eliminarImagen(id: string): Observable<any> {
+    return this.http.delete(this.url +'img/'+id);
+  }
 }

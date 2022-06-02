@@ -19,6 +19,8 @@ export class CrearProductoComponent implements OnInit {
   imagenName = '';
   formData = new FormData();
   uploadedFiles!: Array<File>;
+  timeElapsed = Date.now();
+  today = new Date(this.timeElapsed);
 
   constructor(private fb: FormBuilder, 
               private router: Router, 
@@ -53,16 +55,18 @@ export class CrearProductoComponent implements OnInit {
     };
 
     if(this.IsEdit && this.id !== null){
-      if (this.uploadedFiles.length !== 0){
-        for(let i = 0; i < this.uploadedFiles.length; i++){
-          this.formData.append("imagen", this.uploadedFiles[i]);
-          PRODUCTO.imagen = this.uploadedFiles[i].name
-        }
-        this._productoService.uploadFile(this.formData).subscribe((res) => {
-          console.log('Response', res);
-        })
-      }else{
+      this._productoService.eliminarImagen(this.id).subscribe(data => {
+      }, error => {
+        console.log(error);
+        this.productoForm.reset();
+      })
+      for(let i = 0; i < this.uploadedFiles.length; i++){
+        this.formData.append("imagen", this.uploadedFiles[i]);
+        PRODUCTO.imagen = String(Math.ceil(Date.now()/1000))+'-'+this.uploadedFiles[i].name
       }
+      this._productoService.uploadFile(this.formData).subscribe((res) => {
+        console.log('Response', res);
+      })
       this._productoService.actualizarProducto(this.id, PRODUCTO).subscribe(data => {
         this.toastr.success('El producto fue actualizado con exito!', 'Producto Actualizad0');
         this.router.navigate(['/']);
@@ -74,7 +78,7 @@ export class CrearProductoComponent implements OnInit {
     } else {
       for(let i = 0; i < this.uploadedFiles.length; i++){
           this.formData.append("imagen", this.uploadedFiles[i]);
-          PRODUCTO.imagen = this.uploadedFiles[i].name
+          PRODUCTO.imagen = String(Math.ceil(Date.now()/1000))+'-'+this.uploadedFiles[i].name
         }
         this._productoService.uploadFile(this.formData).subscribe((res) => {
           console.log('Response', res);

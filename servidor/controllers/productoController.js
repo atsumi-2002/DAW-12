@@ -81,3 +81,18 @@ exports.eliminarProducto = async (req, res) => {
         res.status(500).send('Hubo un error ede actualizacion');
     }
 }
+exports.eliminarImagen = async (req, res) => {
+    try {
+        const { nombre, categoria, ubicacion, precio, imagen } = req.body;
+        let producto = await Producto.findById(req.params.id);
+
+        if(!producto) {
+            res.status(404).json({ msg: 'No existe el producto' });
+        }
+        unlink(path.resolve("./image/"+producto.imagen))
+        res.json({ msg: 'Producto eliminado con exito' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error ede actualizacion');
+    }
+}
