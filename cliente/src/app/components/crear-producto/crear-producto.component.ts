@@ -77,12 +77,12 @@ export class CrearProductoComponent implements OnInit {
     console.log(PRODUCTO);
     } else {
       for(let i = 0; i < this.uploadedFiles.length; i++){
-          this.formData.append("imagen", this.uploadedFiles[i]);
-          PRODUCTO.imagen = String(Math.ceil(Date.now()/1000))+'-'+this.uploadedFiles[i].name
-        }
-        this._productoService.uploadFile(this.formData).subscribe((res) => {
-          console.log('Response', res);
-        })
+        this.formData.append("imagen", this.uploadedFiles[i]);
+        PRODUCTO.imagen = String(Math.ceil(Date.now()/1000))+'-'+this.uploadedFiles[i].name
+      }
+      this._productoService.uploadFile(this.formData).subscribe((res) => {
+        console.log('Response', res);
+      })
       this._productoService.guardarProducto(PRODUCTO).subscribe(data => {
         this.toastr.success('El producto fue registrado con exito!', 'Producto Registrado');
         this.router.navigate(['/']);

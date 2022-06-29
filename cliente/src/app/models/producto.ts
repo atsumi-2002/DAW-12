@@ -1,5 +1,6 @@
 export class Producto{
-    _id?: number;
+    id?: number;
+    //_id?: number; MONGO
     nombre: string;
     categoria: string;
     ubicacion: string;

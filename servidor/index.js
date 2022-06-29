@@ -7,9 +7,23 @@ const path = require("path");
 const { param } = require('./routes/producto');
 const app = express();
 const { unlink } = require("fs-extra");
+const mysql = require('mysql');
+const myconn = require('express-myconnection');
 
-conectarDB();
+//mongo ATLAS
+//conectarDB();
+
+//Mysql
+const dbOptions = {
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'usbw',
+    database: 'daw_15'
+}
+
 app.use(cors());
+app.use(myconn(mysql, dbOptions, 'single'));
 app.use(express.json());
 
 var storage = multer.diskStorage({

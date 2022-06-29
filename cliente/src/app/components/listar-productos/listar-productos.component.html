@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-           <div class="card">
+          <div class="card">
                 <div class="card-body text-center">
                     <span class="titulo">LISTADO DE PRODUCTOS</span>
                     <button class="btn btn-success float-end" routerLink="/crear-producto">NUEVO</button>
@@ -22,9 +22,9 @@
                             <td>{{producto.categoria}}</td>
                             <td>{{producto.ubicacion}}</td>
                             <td>{{producto.precio | currency: 'USD'}}</td>
-                            <td>
-                                <i [routerLink]="['/editar-producto', producto._id]" class="fas fa-solid fa-pen-to-square"></i>
-                                <i (click)="eliminarProducto(producto._id)" class="fas fa-solid fa-trash"></i>
+                            <td><!-- cambiar a _id cuando se utilize Mongo atlas -->
+                                <i [routerLink]="['/editar-producto', producto.id]" class="fas fa-solid fa-pen-to-square"></i>
+                                <i (click)="eliminarProducto(producto.id)" class="fas fa-solid fa-trash"></i>
                             </td>
                           </tr>
                         </tbody>
